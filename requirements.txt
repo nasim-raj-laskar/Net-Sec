@@ -5,7 +5,7 @@ setuptools
 pymongo[srv]==3.12
 certifi
 scikit-learn
-dill
+pickle
 pyaml
 
 # -e .
