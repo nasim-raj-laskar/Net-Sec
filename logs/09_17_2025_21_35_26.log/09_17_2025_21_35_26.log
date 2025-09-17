@@ -1,0 +1,23 @@
+[2025-09-17 21:35:34,151] 22 root - INFO - Initiate the data ingestion
+[2025-09-17 21:35:38,253] 74 root - INFO - Performed train test split on the dataframe
+[2025-09-17 21:35:38,253] 75 root - INFO - Exited split_data
+[2025-09-17 21:35:38,254] 79 root - INFO - Created directory Artifact\09_17_2025_21_35_26\data_ingestion\ingested
+[2025-09-17 21:35:38,298] 84 root - INFO - Saved training and testing data
+[2025-09-17 21:35:38,298] 24 root - INFO - Initiate the data vaingestion completedn
+[2025-09-17 21:35:38,313] 30 root - INFO - Initiate the data validation
+[2025-09-17 21:35:38,372] 31 root - INFO - Number of columns  2
+[2025-09-17 21:35:38,372] 32 root - INFO - Dataframe has column:31
+[2025-09-17 21:35:38,372] 31 root - INFO - Number of columns  2
+[2025-09-17 21:35:38,372] 32 root - INFO - Dataframe has column:31
+[2025-09-17 21:35:38,485] 32 root - INFO - Initiate the data validation completed
+[2025-09-17 21:35:38,486] 24 root - INFO - >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Data Transformation <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+[2025-09-17 21:35:38,486] 38 root - INFO - Initiate the data transformation
+[2025-09-17 21:35:38,486] 55 root - INFO - Entered initiate_data_transformation method
+[2025-09-17 21:35:38,486] 57 root - INFO - Obtaining preprocessing object.
+[2025-09-17 21:35:38,539] 44 root - INFO - Entered get_data_transformer_object method
+[2025-09-17 21:35:38,539] 47 root - INFO - Created KNN Imputer object{'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[2025-09-17 21:35:38,539] 49 root - INFO - Created knn imputer object
+[2025-09-17 21:35:38,559] 57 root - INFO - Entered the save_object method of MAinutils class
+[2025-09-17 21:35:38,571] 61 root - INFO - Exited the save_object method of MAinutils class
+[2025-09-17 21:35:38,572] 40 root - INFO - Initiate the data transformation completed
+[2025-09-17 21:35:38,572] 44 root - INFO - Initiate MOdel Training
