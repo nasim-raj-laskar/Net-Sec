@@ -8,4 +8,7 @@ scikit-learn
 mlflow==2.16.0
 pyaml
 dagshub
+fastapi
+uvicorn
+
 # -e .
