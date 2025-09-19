@@ -1,9 +1,0 @@
-[2025-09-15 16:52:43,617] 15 root - INFO - Initiate the data ingestion
-[2025-09-15 16:52:45,635] 74 root - INFO - Performed train test split on the dataframe
-[2025-09-15 16:52:45,635] 75 root - INFO - Exited split_data
-[2025-09-15 16:52:45,635] 79 root - INFO - Created directory Artifact\09_15_2025_16_52_37\data_ingestion\ingested
-[2025-09-15 16:52:45,679] 84 root - INFO - Saved training and testing data
-[2025-09-15 16:52:45,680] 17 root - INFO - Initiate the data vaingestion completedn
-[2025-09-15 16:52:45,693] 21 root - INFO - Initiate the data validation
-[2025-09-15 16:52:45,749] 31 root - INFO - Number of columns  2
-[2025-09-15 16:52:45,749] 32 root - INFO - Dataframe has column:31
