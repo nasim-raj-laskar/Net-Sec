@@ -4,11 +4,8 @@ WORKDIR /app
 
 COPY . /app
 
-# Install AWS CLI via pip and Python dependencies
-RUN apt-get update -y && \
-    pip install awscli && \
-    pip install -r requirements.txt && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Install Python dependencies including AWS CLI
+RUN pip install --no-cache-dir awscli
+RUN pip install --no-cache-dir -r requirements.txt
 
 CMD ["python3", "app.py"]
