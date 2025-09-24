@@ -10,5 +10,8 @@ pyaml
 dagshub
 fastapi
 uvicorn
+jinja2
+python-multipart
+aiofiles
 
 # -e .

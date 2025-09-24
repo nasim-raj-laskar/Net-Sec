@@ -1,21 +1,348 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Data Table</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results - NetworkSecurity</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+        }
+
+        .summary-card i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .safe {
+            color: #28a745;
+        }
+
+        .phishing {
+            color: #dc3545;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 10px;
             text-align: left;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e9ecef;
+            transition: background-color 0.3s;
+        }
+
+        tr:hover td {
+            background-color: #f8f9fa;
+        }
+
+        .prediction-cell {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .prediction-safe {
+            color: #28a745;
+            background-color: rgba(40, 167, 69, 0.1);
+            border-radius: 20px;
+            padding: 5px 10px;
+        }
+
+        .prediction-phishing {
+            color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: 20px;
+            padding: 5px 10px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .table-container {
+                padding: 1rem;
+            }
+            
+            table {
+                font-size: 0.8rem;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+            }
         }
     </style>
 </head>
 <body>
-    <h2>Predicted Data</h2>
-    {{ table|safe }}
+    <button class="back-btn" onclick="window.location.href='/predict-ui'">
+        <i class="fas fa-arrow-left"></i> Back
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-chart-bar"></i> Prediction Results</h1>
+            <p>Analysis complete - Review the phishing detection results below</p>
+        </div>
+
+        <div class="results-summary" id="resultsSummary">
+            <!-- Summary cards will be populated by JavaScript -->
+        </div>
+
+        <div class="table-container">
+            {{ table|safe }}
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-success" onclick="downloadResults()">
+                <i class="fas fa-download"></i> Download Results
+            </button>
+            <a href="/predict-ui" class="btn btn-primary">
+                <i class="fas fa-upload"></i> Analyze Another File
+            </a>
+            <a href="/" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Enhance the table after it's loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            enhanceTable();
+            generateSummary();
+        });
+
+        function enhanceTable() {
+            const table = document.querySelector('table');
+            if (!table) return;
+
+            // Add classes to the table
+            table.classList.add('enhanced-table');
+
+            // Find and enhance prediction column
+            const rows = table.querySelectorAll('tr');
+            const headerRow = rows[0];
+            const headers = headerRow.querySelectorAll('th, td');
+            
+            let predictionColumnIndex = -1;
+            headers.forEach((header, index) => {
+                if (header.textContent.toLowerCase().includes('predicted')) {
+                    predictionColumnIndex = index;
+                }
+            });
+
+            // Style prediction cells
+            if (predictionColumnIndex !== -1) {
+                for (let i = 1; i < rows.length; i++) {
+                    const cells = rows[i].querySelectorAll('td');
+                    if (cells[predictionColumnIndex]) {
+                        const cell = cells[predictionColumnIndex];
+                        const value = cell.textContent.trim();
+                        
+                        cell.classList.add('prediction-cell');
+                        
+                        if (value === '0' || value.toLowerCase().includes('safe')) {
+                            cell.innerHTML = '<span class="prediction-safe"><i class="fas fa-shield-alt"></i> Safe</span>';
+                        } else if (value === '1' || value.toLowerCase().includes('phishing')) {
+                            cell.innerHTML = '<span class="prediction-phishing"><i class="fas fa-exclamation-triangle"></i> Phishing</span>';
+                        }
+                    }
+                }
+            }
+        }
+
+        function generateSummary() {
+            const table = document.querySelector('table');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr');
+            let totalRows = rows.length - 1; // Exclude header
+            let safeCount = 0;
+            let phishingCount = 0;
+
+            // Count predictions
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].querySelectorAll('td');
+                const lastCell = cells[cells.length - 1];
+                if (lastCell) {
+                    const value = lastCell.textContent.trim();
+                    if (value === '0') {
+                        safeCount++;
+                    } else if (value === '1') {
+                        phishingCount++;
+                    }
+                }
+            }
+
+            // Generate summary cards
+            const summaryContainer = document.getElementById('resultsSummary');
+            summaryContainer.innerHTML = `
+                <div class="summary-card">
+                    <i class="fas fa-list safe"></i>
+                    <h3>${totalRows}</h3>
+                    <p>Total Analyzed</p>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-shield-alt safe"></i>
+                    <h3>${safeCount}</h3>
+                    <p>Safe Websites</p>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-exclamation-triangle phishing"></i>
+                    <h3>${phishingCount}</h3>
+                    <p>Phishing Detected</p>
+                </div>
+                <div class="summary-card">
+                    <i class="fas fa-percentage safe"></i>
+                    <h3>${totalRows > 0 ? Math.round((safeCount / totalRows) * 100) : 0}%</h3>
+                    <p>Safety Rate</p>
+                </div>
+            `;
+        }
+
+        function downloadResults() {
+            // Create a link to download the CSV file
+            const link = document.createElement('a');
+            link.href = '/Prediction_output/output.csv';
+            link.download = 'phishing_detection_results.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
 </body>
 </html>
