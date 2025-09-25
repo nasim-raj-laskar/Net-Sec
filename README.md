@@ -8,6 +8,10 @@ Production-grade MLOps system for phishing website detection leveraging modular 
 
 ## 🏗️ System Architecture
 
+### High-Level Architecture
+
+![dataflow](static/sim.png)
+
 ### Modular Component Design
 
 ```
@@ -32,111 +36,7 @@ networksecurity/
 
 ### Data Flow Architecture
 
-```mermaid
-graph TD
-    %% Data Sources
-    A[Raw CSV Data<br/>phisingData.csv] --> B[push_data.py]
-    B --> C[(MongoDB Atlas<br/>Database: NASIMRL<br/>Collection: NetworkData)]
-    
-    %% Schema Definition
-    D[Schema Definition<br/>schema.yaml<br/>30 Features + Target] --> E[Data Validation]
-    
-    %% Training Pipeline Entry Points
-    F[Training Trigger<br/>main.py or app.py/train] --> G[TrainingPipeline]
-    
-    %% Data Ingestion Component
-    G --> H[Data Ingestion<br/>DataIngestion]
-    C --> H
-    H --> I[Feature Store<br/>phisingData.csv]
-    H --> J[Train/Test Split<br/>train.csv & test.csv]
-    
-    %% Data Validation Component
-    J --> K[Data Validation<br/>DataValidation]
-    D --> K
-    K --> L[Schema Validation<br/>Column Count Check]
-    K --> M[Data Drift Detection<br/>KS Test Analysis]
-    M --> N[Drift Report<br/>report.yaml]
-    K --> O[Validated Data<br/>valid_train.csv & valid_test.csv]
-    
-    %% Data Transformation Component
-    O --> P[Data Transformation<br/>DataTransformation]
-    P --> Q[KNN Imputation<br/>Missing Value Handling]
-    Q --> R[Feature Engineering<br/>Target Label Encoding]
-    R --> S[Transformed Arrays<br/>train.npy & test.npy]
-    P --> T[Preprocessor Object<br/>preprocessing.pkl]
-    
-    %% Model Training Component
-    S --> U[Model Training<br/>ModelTrainer]
-    U --> V[Multi-Algorithm Training<br/>RandomForest, DecisionTree<br/>GradientBoosting, LogisticRegression<br/>AdaBoost]
-    V --> W[Hyperparameter Tuning<br/>GridSearchCV]
-    W --> X[Model Evaluation<br/>F1, Precision, Recall]
-    X --> Y[Best Model Selection]
-    
-    %% MLflow Integration
-    Y --> Z[MLflow Tracking<br/>DagsHub Integration]
-    Z --> AA[Experiment Logging<br/>Metrics & Models]
-    
-    %% Model Artifacts
-    Y --> BB[Trained Model<br/>model.pkl]
-    T --> CC[Final Preprocessor<br/>final_models/preprocessor.pkl]
-    BB --> DD[Final Model<br/>final_models/model.pkl]
-    
-    %% Cloud Synchronization
-    BB --> EE[S3 Sync<br/>S3Syncer]
-    T --> EE
-    EE --> FF[AWS S3 Bucket<br/>networksecurity010<br/>Artifact Storage]
-    
-    %% Web Application
-    GG[FastAPI Web App<br/>app.py] --> HH[Static Files<br/>CSS, Templates]
-    GG --> II[API Endpoints<br/>/, /train, /predict]
-    
-    %% Prediction Pipeline
-    JJ[CSV Upload<br/>File Input] --> KK[Batch Prediction<br/>predict_route]
-    CC --> KK
-    DD --> KK
-    KK --> LL[NetworkModel<br/>Prediction Engine]
-    LL --> MM[Prediction Results<br/>output.csv]
-    MM --> NN[HTML Table Response<br/>Dynamic Rendering]
-    
-    %% CI/CD Pipeline
-    OO[GitHub Repository<br/>Code Push] --> PP[GitHub Actions<br/>CI/CD Workflows]
-    PP --> QQ[Code Quality<br/>Black, isort, flake8, mypy]
-    PP --> RR[Security Scanning<br/>Bandit, Safety, pip-audit]
-    PP --> SS[Testing Pipeline<br/>Multi-version Testing]
-    PP --> TT[Docker Build<br/>Container Creation]
-    TT --> UU[AWS ECR<br/>Container Registry]
-    UU --> VV[Production Deployment<br/>Self-hosted Runner]
-    
-    %% Monitoring & Logging
-    WW[Logging System<br/>Structured Logs] --> XX[Log Files<br/>Timestamped Logs]
-    YY[Artifact Management<br/>Versioned Storage] --> ZZ[Artifact Directory<br/>Timestamped Artifacts]
-    
-    %% Configuration Management
-    AAA[Environment Variables<br/>.env Configuration] --> BBB[MongoDB Connection<br/>AWS Credentials]
-    CCC[Configuration Entities<br/>config_entity.py] --> DDD[Pipeline Configuration<br/>Artifact Paths]
-    
-    %% Exception Handling
-    EEE[Exception Handling<br/>NetworkSecurityException] --> FFF[Error Logging<br/>Stack Trace Capture]
-    
-    %% Styling - light backgrounds get black text, dark backgrounds get white text
-    classDef dataSource fill:#e1f5fe,color:#000000
-    classDef component fill:#f3e5f5,color:#000000
-    classDef artifact fill:#e8f5e8,color:#000000
-    classDef cloud fill:#fff3e0,color:#000000
-    classDef webapp fill:#fce4ec,color:#000000
-    classDef cicd fill:#f1f8e9,color:#000000
-    classDef darkBox fill:#333333,color:#ffffff
-    classDef default color:#000000
-    
-    class A,C,D dataSource
-    class H,K,P,U component
-    class I,J,O,S,T,BB,CC,DD artifact
-    class EE,FF,UU cloud
-    class GG,II,KK,LL webapp
-    class PP,QQ,RR,SS,TT,VV cicd
-    class B,E,F,G,L,M,N,Q,R,V,W,X,Y,Z,AA,HH,JJ,OO,WW,XX,YY,ZZ,AAA,BBB,CCC,DDD,EEE,FFF darkBox
-
-```
+![dataflow](static/dataflow.png)
 
 ## 🚀 CI/CD Pipeline Architecture
 
