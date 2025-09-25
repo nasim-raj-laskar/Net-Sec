@@ -12,22 +12,22 @@ Production-grade MLOps system for phishing website detection leveraging modular 
 
 ```
 networksecurity/
-├── components/           # Core ML pipeline components
-│   ├── data_ingestion.py    # MongoDB → Feature Store ETL
-│   ├── data_validation.py   # Schema validation & drift detection
+├── components/                # Core ML pipeline components
+│   ├── data_ingestion.py      # MongoDB → Feature Store ETL
+│   ├── data_validation.py     # Schema validation & drift detection
 │   ├── data_transformation.py # Feature engineering & preprocessing
-│   └── model_trainer.py     # Multi-algorithm training with MLflow
-├── pipeline/            # Orchestration layer
-│   ├── training_pipeline.py # End-to-end ML pipeline
-│   └── batch_prediction.py  # Inference pipeline
-├── cloud/              # Cloud integration
-│   └── s3_syncer.py        # AWS S3 artifact synchronization
-├── utils/              # Utility modules
-│   ├── ml_utils/           # ML-specific utilities
-│   └── main_utils/         # General utilities
-└── entity/             # Configuration & artifact entities
-    ├── config_entity.py    # Pipeline configurations
-    └── artifact_entity.py  # Artifact definitions
+│   └── model_trainer.py       # Multi-algorithm training with MLflow
+├── pipeline/                  # Orchestration layer
+│   ├── training_pipeline.py   # End-to-end ML pipeline
+│   └── batch_prediction.py    # Inference pipeline
+├── cloud/                     # Cloud integration
+│   └── s3_syncer.py           # AWS S3 artifact synchronization
+├── utils/                     # Utility modules
+│   ├── ml_utils/              # ML-specific utilities
+│   └── main_utils/            # General utilities
+└── entity/                    # Configuration & artifact entities
+    ├── config_entity.py       # Pipeline configurations
+    └── artifact_entity.py     # Artifact definitions
 ```
 
 ### Data Flow Architecture
@@ -290,18 +290,8 @@ chmod +x start_server.sh
 python app.py
 ```
 
-### Production Checklist
-- [ ] Environment variables configured
-- [ ] MongoDB connection established
-- [ ] AWS credentials validated
-- [ ] Docker image built and tested
-- [ ] Security scans passed
-- [ ] Load testing completed
 
 ## 📚 Technical Documentation
-
-### API Documentation
-Access interactive API docs at: `http://localhost:8000/docs`
 
 ### Model Documentation
 - **Algorithm Selection**: Ensemble methods with cross-validation
@@ -314,13 +304,6 @@ Access interactive API docs at: `http://localhost:8000/docs`
 - **Data Privacy**: PII anonymization in logs
 - **Vulnerability Management**: Automated dependency scanning
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/enhancement`)
-3. Commit changes (`git commit -am 'Add enhancement'`)
-4. Push to branch (`git push origin feature/enhancement`)
-5. Create Pull Request
 
 ### Code Standards
 - Follow PEP8 guidelines
