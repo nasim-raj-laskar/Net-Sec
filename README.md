@@ -118,13 +118,14 @@ graph TD
     %% Exception Handling
     EEE[Exception Handling<br/>NetworkSecurityException] --> FFF[Error Logging<br/>Stack Trace Capture]
     
-    %% Styling with black text
+    %% Styling - light backgrounds get black text, dark backgrounds get white text
     classDef dataSource fill:#e1f5fe,color:#000000
     classDef component fill:#f3e5f5,color:#000000
     classDef artifact fill:#e8f5e8,color:#000000
     classDef cloud fill:#fff3e0,color:#000000
     classDef webapp fill:#fce4ec,color:#000000
     classDef cicd fill:#f1f8e9,color:#000000
+    classDef darkBox fill:#333333,color:#ffffff
     classDef default color:#000000
     
     class A,C,D dataSource
@@ -133,6 +134,7 @@ graph TD
     class EE,FF,UU cloud
     class GG,II,KK,LL webapp
     class PP,QQ,RR,SS,TT,VV cicd
+    class B,E,F,G,L,M,N,Q,R,V,W,X,Y,Z,AA,HH,JJ,OO,WW,XX,YY,ZZ,AAA,BBB,CCC,DDD,EEE,FFF darkBox
 
 ```
 
