@@ -118,13 +118,14 @@ graph TD
     %% Exception Handling
     EEE[Exception Handling<br/>NetworkSecurityException] --> FFF[Error Logging<br/>Stack Trace Capture]
     
-    %% Styling
-    classDef dataSource fill:#e1f5fe
-    classDef component fill:#f3e5f5
-    classDef artifact fill:#e8f5e8
-    classDef cloud fill:#fff3e0
-    classDef webapp fill:#fce4ec
-    classDef cicd fill:#f1f8e9
+    %% Styling with black text
+    classDef dataSource fill:#e1f5fe,color:#000000
+    classDef component fill:#f3e5f5,color:#000000
+    classDef artifact fill:#e8f5e8,color:#000000
+    classDef cloud fill:#fff3e0,color:#000000
+    classDef webapp fill:#fce4ec,color:#000000
+    classDef cicd fill:#f1f8e9,color:#000000
+    classDef default color:#000000
     
     class A,C,D dataSource
     class H,K,P,U component
