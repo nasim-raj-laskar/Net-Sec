@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetworkSecurity - Phishing Detection System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-area {
+            text-align: center;
+            color: white;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 2rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            overflow-x: auto;
+            margin-top: 2rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 10px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .status-bar {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            height: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-shield-alt"></i> NetworkSecurity</h1>
+            <p>AI-powered phishing detection system</p>
+        </div>
+
+        <div class="grid">
+            <!-- Predict Section -->
+            <div class="card">
+                <h2><i class="fas fa-search"></i> Phishing Detection</h2>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="upload-area">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: #ffd700; margin-bottom: 1rem;"></i>
+                        <h3>Upload CSV File</h3>
+                        <label for="file" class="file-label">
+                            <i class="fas fa-file-csv"></i> Choose File
+                        </label>
+                        <input type="file" id="file" name="file" class="file-input" accept=".csv" required>
+                        <div id="fileInfo" style="margin-top: 1rem;">No file selected</div>
+                    </div>
+                    <button type="submit" class="btn" id="submitBtn" disabled>
+                        <i class="fas fa-search"></i> Analyze File
+                    </button>
+                </form>
+            </div>
+
+            <!-- Train Section -->
+            <div class="card">
+                <h2><i class="fas fa-cogs"></i> Model Training</h2>
+                <p>Train the model with latest data</p>
+                <button id="trainBtn" class="btn" onclick="startTraining()">
+                    <i class="fas fa-play"></i> Start Training
+                </button>
+                <div id="trainStatus" class="hidden">
+                    <div class="status-bar">
+                        <div id="progressFill" class="progress"></div>
+                    </div>
+                    <p id="statusText">Initializing...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="card hidden">
+            <h2><i class="fas fa-chart-bar"></i> Results</h2>
+            <div class="table-container" id="tableContainer"></div>
+            <button class="btn" onclick="downloadResults()" style="width: auto; margin-top: 1rem;">
+                <i class="fas fa-download"></i> Download Results
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file');
+        const fileInfo = document.getElementById('fileInfo');
+        const submitBtn = document.getElementById('submitBtn');
+        const uploadForm = document.getElementById('uploadForm');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                fileInfo.innerHTML = `<strong>${file.name}</strong> (${(file.size / 1024).toFixed(2)} KB)`;
+                submitBtn.disabled = false;
+            } else {
+                fileInfo.textContent = 'No file selected';
+                submitBtn.disabled = true;
+            }
+        });
+
+        uploadForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json' },
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    document.getElementById('tableContainer').innerHTML = result.table_html;
+                    document.getElementById('resultsSection').classList.remove('hidden');
+                    enhanceTable();
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-search"></i> Analyze File';
+            }
+        });
+
+        async function startTraining() {
+            const trainBtn = document.getElementById('trainBtn');
+            const trainStatus = document.getElementById('trainStatus');
+            
+            trainBtn.disabled = true;
+            trainBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Training...';
+            trainStatus.classList.remove('hidden');
+            
+            const stages = ['Data Ingestion', 'Validation', 'Transformation', 'Training', 'Evaluation'];
+            
+            for (let i = 0; i < stages.length; i++) {
+                document.getElementById('statusText').textContent = stages[i] + '...';
+                document.getElementById('progressFill').style.width = ((i + 1) / stages.length * 100) + '%';
+                await new Promise(resolve => setTimeout(resolve, 2000));
+            }
+            
+            try {
+                const response = await fetch('/train');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    trainBtn.innerHTML = '<i class="fas fa-check"></i> Training Completed';
+                    document.getElementById('statusText').textContent = 'Training completed successfully!';
+                } else {
+                    throw new Error('Training failed');
+                }
+            } catch (error) {
+                trainBtn.innerHTML = '<i class="fas fa-times"></i> Training Failed';
+                document.getElementById('statusText').textContent = 'Training failed!';
+            }
+        }
+
+        function enhanceTable() {
+            const table = document.querySelector('#tableContainer table');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tr');
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].querySelectorAll('td');
+                const lastCell = cells[cells.length - 1];
+                if (lastCell) {
+                    const value = lastCell.textContent.trim();
+                    if (value === '0') {
+                        lastCell.innerHTML = '<span style="color: #28a745; font-weight: bold;"><i class="fas fa-shield-alt"></i> Safe</span>';
+                    } else if (value === '1') {
+                        lastCell.innerHTML = '<span style="color: #dc3545; font-weight: bold;"><i class="fas fa-exclamation-triangle"></i> Phishing</span>';
+                    }
+                }
+            }
+        }
+
+        function downloadResults() {
+            const link = document.createElement('a');
+            link.href = '/Prediction_output/output.csv';
+            link.download = 'results.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

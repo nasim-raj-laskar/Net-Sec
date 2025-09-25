@@ -51,15 +51,7 @@ app.mount("/Prediction_output", StaticFiles(directory="Prediction_output"), name
 
 @app.get("/", tags=["authentication"])
 async def index(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
-
-@app.get("/predict-ui")
-async def predict_ui(request: Request):
-    return templates.TemplateResponse("predict.html", {"request": request})
-
-@app.get("/train-ui")
-async def train_ui(request: Request):
-    return templates.TemplateResponse("train.html", {"request": request})
+    return templates.TemplateResponse("combined.html", {"request": request})
 
 @app.get("/train")
 async def training():
@@ -83,7 +75,7 @@ async def predict_route(request: Request,file:UploadFile=File(...)):
             df['predicted_column'] = [random.choice([0, 1]) for _ in range(len(df))]
             df.to_csv("Prediction_output/output.csv", index=False)
             table_html=df.to_html(classes="table table-striped")
-            return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
+            return {"table_html": table_html, "status": "success"}
         
         preprocessor=load_object("final_models/preprocessor.pkl")
         final_model=load_object("final_models/model.pkl")
@@ -92,7 +84,7 @@ async def predict_route(request: Request,file:UploadFile=File(...)):
         df['predicted_column']=y_pred
         df.to_csv("Prediction_output/output.csv", index=False)
         table_html=df.to_html(classes="table table-striped")
-        return templates.TemplateResponse("table.html", {"request": request, "table": table_html})
+        return {"table_html": table_html, "status": "success"}
 
     except Exception as e:
         raise NetworkSecurityException(e, sys)
