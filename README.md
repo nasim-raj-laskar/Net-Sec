@@ -3,6 +3,14 @@
 [![CI/CD Pipeline](https://github.com/nasim-raj-laskar/Net-Sec/actions/workflows/main.yaml/badge.svg)](https://github.com/nasim-raj-laskar/Net-Sec/actions)
 [![Code Quality](https://github.com/nasim-raj-laskar/Net-Sec/actions/workflows/code-quality.yaml/badge.svg)](https://github.com/nasim-raj-laskar/Net-Sec/actions)
 [![Security Scan](https://github.com/nasim-raj-laskar/Net-Sec/actions/workflows/security-scan.yaml/badge.svg)](https://github.com/nasim-raj-laskar/Net-Sec/actions)
+[![Testing](https://github.com/nasim-raj-laskar/Net-Sec/actions/workflows/testing.yaml/badge.svg)](https://github.com/nasim-raj-laskar/Net-Sec/actions)
+[![Performance Test](https://github.com/nasim-raj-laskar/Net-Sec/actions/workflows/performance-test.yaml/badge.svg)](https://github.com/nasim-raj-laskar/Net-Sec/actions)
+[![Docker Build](https://img.shields.io/docker/build/nasimrajlaskar/networksecurity)](https://hub.docker.com/r/nasimrajlaskar/networksecurity)
+[![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/downloads/)
+[![MLflow](https://img.shields.io/badge/MLflow-Tracking-orange)](https://dagshub.com/nasim-raj-laskar/Net-Sec)
+[![AWS](https://img.shields.io/badge/AWS-S3%20%7C%20ECR-orange)](https://aws.amazon.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green)](https://www.mongodb.com/atlas)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Framework-teal)](https://fastapi.tiangolo.com/)
 
 Production-grade MLOps system for phishing website detection leveraging modular architecture, automated CI/CD pipelines, cloud-native deployment, and comprehensive monitoring infrastructure.
 
