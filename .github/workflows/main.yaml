@@ -25,7 +25,7 @@ jobs:
       - name: Run unit tests
         run: echo "Running unit tests"
 
-   # --- The jobs below are disabled to avoid errors ---
+  # # --- The jobs below are disabled to avoid errors ---
   # build-and-push-ecr-image:
   #   name: Continuous Delivery
   #   needs: integration
