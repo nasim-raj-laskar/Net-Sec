@@ -61,6 +61,25 @@ async def training():
         return {"message": "Training has been completed"}
     except Exception as e:
         raise NetworkSecurityException(e, sys)
+
+@app.get("/visualize")
+async def visualize_performance():
+    try:
+        # Import and run directly instead of subprocess
+        import sys
+        sys.path.append('.')
+        from visualize_model import visualize_model_performance
+        
+        visualize_model_performance()
+        
+        # Check if file was created
+        if os.path.exists("static/model_performance.png"):
+            return {"message": "Visualization generated successfully"}
+        else:
+            return {"error": "Visualization file not created"}
+            
+    except Exception as e:
+        return {"error": f"Error: {str(e)}"}
     
 
 @app.post("/predict")
@@ -90,4 +109,4 @@ async def predict_route(request: Request,file:UploadFile=File(...)):
         raise NetworkSecurityException(e, sys)
     
 if __name__=="__main__":
-    app_run(app, host="0.0.0.0", port=8080)
+    app_run(app, host="127.0.0.1", port=8080)

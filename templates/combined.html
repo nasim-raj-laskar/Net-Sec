@@ -192,6 +192,9 @@
                 <button id="trainBtn" class="btn" onclick="startTraining()">
                     <i class="fas fa-play"></i> Start Training
                 </button>
+                <button class="btn" onclick="generateVisualization()" style="background: linear-gradient(45deg, #667eea, #764ba2); margin-top: 0.5rem;">
+                    <i class="fas fa-chart-line"></i> View Performance
+                </button>
                 <div id="trainStatus" class="hidden">
                     <div class="status-bar">
                         <div id="progressFill" class="progress"></div>
@@ -208,6 +211,14 @@
             <button class="btn" onclick="downloadResults()" style="width: auto; margin-top: 1rem;">
                 <i class="fas fa-download"></i> Download Results
             </button>
+        </div>
+
+        <!-- Visualization Section -->
+        <div id="visualizationSection" class="card hidden">
+            <h2><i class="fas fa-chart-line"></i> Model Performance</h2>
+            <div style="text-align: center;">
+                <img id="performanceChart" src="" alt="Model Performance Chart" style="max-width: 100%; height: auto; border-radius: 10px;">
+            </div>
         </div>
     </div>
 
@@ -307,6 +318,22 @@
                         lastCell.innerHTML = '<span style="color: #dc3545; font-weight: bold;"><i class="fas fa-exclamation-triangle"></i> Phishing</span>';
                     }
                 }
+            }
+        }
+
+        async function generateVisualization() {
+            try {
+                const response = await fetch('/visualize');
+                const result = await response.json();
+                
+                if (response.ok) {
+                    document.getElementById('performanceChart').src = '/static/model_performance.png?' + new Date().getTime();
+                    document.getElementById('visualizationSection').classList.remove('hidden');
+                } else {
+                    alert('Error generating visualization: ' + result.error);
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
             }
         }
 

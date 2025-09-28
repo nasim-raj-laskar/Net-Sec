@@ -13,5 +13,6 @@ uvicorn
 jinja2
 python-multipart
 aiofiles
-
+matplotlib
+seaborn
 # -e .
