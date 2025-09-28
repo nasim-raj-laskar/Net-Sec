@@ -4,7 +4,7 @@ numpy
 setuptools
 pymongo[srv]==3.12
 certifi
-scikit-learn
+scikit-learn==1.7.2
 mlflow==2.16.0
 pyaml
 dagshub
