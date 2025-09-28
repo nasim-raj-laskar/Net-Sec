@@ -42,6 +42,7 @@ networksecurity/
     └── artifact_entity.py     # Artifact definitions
 ```
 
+
 ### Data Flow Architecture
 
 ![dataflow](static/dataflow.png)
@@ -101,6 +102,13 @@ continuous-deployment:
 - **Purpose**: Docker image storage and versioning
 - **Configuration**: Private repository with lifecycle policies
 - **Security**: IAM-based access control with least privilege
+
+#### Amazon EC2 (Elastic Compute Cloud)
+- **Purpose**: Production application hosting and compute resources
+- **Configuration**: Ubuntu 20.04 LTS with Python 3.9+ runtime
+- **Security**: Security groups with restricted inbound access (SSH:22, HTTP:8080)
+- **Deployment**: Docker containerization with automated CI/CD integration
+- **Scaling**: Auto Scaling Groups for high availability and load distribution
 
 #### Amazon S3 (Simple Storage Service)
 - **Artifact Storage**: Model artifacts, preprocessors, training data
@@ -213,7 +221,7 @@ CMD ["python3", "app.py"]
 - Python 3.9+
 - MongoDB Atlas connection
 - AWS CLI configured
-- Docker (optional)
+- Docker 
 
 ### Installation
 ```bash
@@ -238,11 +246,14 @@ python app.py
 
 ### Environment Variables
 ```bash
+#.env updates(local)
 MONGO_DB_URL=mongodb+srv://...
+#update these in the githubs secrets
 AWS_ACCESS_KEY_ID=...
 AWS_SECRET_ACCESS_KEY=...
 AWS_REGION=us-east-1
 ECR_REPOSITORY_NAME=networksecurity
+
 ```
 
 ## 📈 Monitoring & Observability
@@ -275,7 +286,7 @@ Artifact/{timestamp}/
 
 ## 🚦 Production Deployment
 
-### Quick Start
+### Local Development
 ```bash
 # Windows
 start_server.bat
@@ -287,6 +298,58 @@ chmod +x start_server.sh
 # Manual
 python app.py
 ```
+
+### AWS EC2 Production Deployment
+
+#### EC2 Instance Setup
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Python and dependencies
+sudo apt install python3 python3-pip git -y
+
+# Clone repository
+git clone https://github.com/nasim-raj-laskar/Net-Sec.git
+cd NetworkSecurity
+
+# Install requirements
+pip3 install -r requirements.txt
+
+# Configure environment variables
+export MONGO_DB_URL="your_mongodb_connection_string"
+export AWS_ACCESS_KEY_ID="your_access_key"
+export AWS_SECRET_ACCESS_KEY="your_secret_key"
+
+# Start application
+python3 app.py
+```
+
+#### Docker Deployment on EC2
+```bash
+# Install Docker
+sudo apt install docker.io -y
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Build and run container
+sudo docker build -t networksecurity .
+sudo docker run -d -p 8080:8080 \
+  -e MONGO_DB_URL="your_mongodb_url" \
+  -e AWS_ACCESS_KEY_ID="your_access_key" \
+  -e AWS_SECRET_ACCESS_KEY="your_secret_key" \
+  networksecurity
+```
+
+#### Security Group Configuration
+- **Inbound Rules**:
+  - HTTP: Port 80 (if using load balancer)
+  - Custom TCP: Port 8080 (application port)
+  - SSH: Port 22 (for management)
+
+#### Access Application
+- **Local**: http://localhost:8080
+- **EC2**: http://your-ec2-public-ip:8080
 
 
 ## 📚 Technical Documentation
@@ -309,3 +372,4 @@ python app.py
 - Update documentation for new features
 - Pass all CI/CD pipeline checks
 
+---
