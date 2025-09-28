@@ -8,7 +8,7 @@
 [![Docker](https://img.shields.io/badge/Docker-Available-blue?logo=docker)](https://hub.docker.com/r/nasimrajlaskar/networksecurity)
 [![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://www.python.org/downloads/)
 [![MLflow](https://img.shields.io/badge/MLflow-Tracking-orange)](https://dagshub.com/nasim-raj-laskar/Net-Sec)
-[![AWS](https://img.shields.io/badge/AWS-S3%20%7C%20ECR-orange)](https://aws.amazon.com/)
+[![AWS](https://img.shields.io/badge/AWS-S3%20%7C%20ECR%20%7C%20EC2-orange)](https://aws.amazon.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green)](https://www.mongodb.com/atlas)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Framework-teal)](https://fastapi.tiangolo.com/)
 
