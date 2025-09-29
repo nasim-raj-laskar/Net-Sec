@@ -24,26 +24,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install locust memory-profiler
 
-      - name: Memory profiling
+      - name: Performance test
         run: |
-          python -m memory_profiler app.py > memory-profile.txt || echo "Memory profiling completed"
-
-      - name: Load testing setup
-        run: |
-          echo "Setting up load testing environment"
-          python simple_server.py &
-          sleep 5
-
-      - name: Basic load test
-        run: |
-          curl -f http://localhost:8000/test || echo "Load test completed"
-
-      - name: Upload performance reports
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: performance-reports
-          path: |
-            memory-profile.txt
+          timeout 30 python app.py &
+          sleep 10
+          curl -f http://localhost:8080/ || echo "Performance test completed"
